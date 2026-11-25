@@ -1,26 +1,35 @@
-% =====================================================================
-%  Articulo: LHS 1140 b y c (Ciencias Planetarias, UdeA, 2026)
-%  Compilar con XeLaTeX:  xelatex articulo_LHS1140.tex  (dos veces)
-%  Las figuras se leen de la carpeta figs/. Si el archivo no existe,
-%  el articulo deja un marco vacio con el nombre del archivo esperado.
-% =====================================================================
-\documentclass[10pt,a4paper,twocolumn]{article}
-\usepackage{polyglossia}
-\setmainlanguage{spanish}
+% !TEX program = pdflatex
+% Articulo: LHS 1140 b y c -- Ciencias Planetarias, UdeA, 2026
+% Compilar dos veces con: pdflatex articulo_LHS1140.tex
+% Las figuras se leen de la carpeta figs/.
+
+\documentclass[twocolumn,aps,pra,11pt]{revtex4-2}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}\renewcommand{\figurename}{Imagen}}
 \usepackage{amsmath,amssymb}
-\usepackage[margin=1.9cm,columnsep=0.7cm]{geometry}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{array}
+\usepackage{makecell}
 \usepackage{xcolor}
-\usepackage{caption}
 \usepackage{enumitem}
-\usepackage[colorlinks=true,urlcolor=blue,linkcolor=black,citecolor=black]{hyperref}
-\captionsetup{font=small,labelfont=bf}
+\usepackage{url}
+\usepackage{xurl}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=black,citecolor=black}
+\decimalpoint
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\figurename}{Imagen}
 \setlist{itemsep=2pt,topsep=4pt}
-\setlength{\parskip}{4pt}
-\setlength{\parindent}{1.0em}
+\setlength{\parskip}{2pt}
+\setlength{\parindent}{1em}
 \emergencystretch=2em
-\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{5pt plus 2pt minus 2pt}
+\setlength{\columnsep}{0.8cm}
+\raggedbottom
 
 \newcommand{\Msun}{\ensuremath{M_\odot}}
 \newcommand{\Rsun}{\ensuremath{R_\odot}}
@@ -28,45 +37,34 @@
 \newcommand{\Mearth}{\ensuremath{M_\oplus}}
 \newcommand{\Rearth}{\ensuremath{R_\oplus}}
 \newcommand{\ms}{\ensuremath{\mathrm{m\,s^{-1}}}}
-\newcommand{\nb}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\nb}[1]{\url{#1}}
 
-% \figura{etiqueta}{archivo}{alto del marco}{pie}   (una columna)
-% \figurawide{...}  (ancho de pagina, figure*)
+% \figura{etiqueta}{archivo}{alto del marco}{pie}
 \newcommand{\figura}[4]{%
   \begin{figure}[!htb]\centering
-  \IfFileExists{figs/#2}{\includegraphics[width=\linewidth,height=0.7\textheight,keepaspectratio]{figs/#2}}{%
-    \fbox{\parbox[c][#3][c]{0.94\linewidth}{\centering\small\color{gray}
-    Espacio para la figura\\[2pt]\nb{figs/#2}}}}%
+  \IfFileExists{figs/#2}{\includegraphics[width=\linewidth,height=0.7\textheight,keepaspectratio]{figs/#2}}{\fbox{\parbox[c][#3][c]{0.94\linewidth}{\centering\small Espacio para la figura}}}%
   \caption{#4}\label{fig:#1}
   \end{figure}}
 \newcommand{\figurawide}[4]{%
   \begin{figure*}[!t]\centering
-  \IfFileExists{figs/#2}{\includegraphics[width=0.92\textwidth]{figs/#2}}{%
-    \fbox{\parbox[c][#3][c]{0.9\textwidth}{\centering\small\color{gray}
-    Espacio para la figura\\[2pt]\nb{figs/#2}}}}%
+  \IfFileExists{figs/#2}{\includegraphics[width=0.92\textwidth]{figs/#2}}{\fbox{\parbox[c][#3][c]{0.9\textwidth}{\centering\small Espacio para la figura}}}%
   \caption{#4}\label{fig:#1}
   \end{figure*}}
 
 \begin{document}
-\twocolumn[{%
-\begin{center}
-{\LARGE\bfseries Masa, radio y zona habitable del sistema LHS~1140\\[2pt]
-\large a partir de velocidades radiales de HARPS y fotometr\'ia de TESS,\\
-y zona habitable de estrellas de baja masa}\\[8pt]
-{\large Mateo}\\[2pt]
-{\small Facultad de Ciencias Exactas y Naturales, Universidad de Antioquia, Medell\'in, Colombia}\\
-{\small Ciencias Planetarias}\\[2pt]
-{\small 27 de noviembre de 2026}
-\end{center}
-\begin{center}
-\parbox{0.88\textwidth}{\small\textbf{Resumen.} LHS~1140 es una enana M a unos 15~pc con dos planetas confirmados: LHS~1140~b, una supertierra templada en la zona habitable, y LHS~1140~c, una Tierra caliente interna. Se caracterizan ambos planetas con datos p\'ublicos: 293 espectros de HARPS del archivo de ESO, de los que se extraen velocidades radiales con el m\'etodo \emph{line-by-line} (LBL), y fotometr\'ia de TESS de los sectores 3, 30 y 107, que se ajusta con un modelo de tr\'ansito y MCMC. Las semiamplitudes son $K_b = 4.78 \pm 0.45~\ms$ y $K_c = 2.47 \pm 0.47~\ms$, y los radios $R_b = 1.78^{+0.10}_{-0.07}~\Rearth$ y $R_c = 1.25^{+0.06}_{-0.04}~\Rearth$. Con ellos se obtienen masas de $7.0 \pm 0.7~\Mearth$ para b y $1.96 \pm 0.37~\Mearth$ para c. La masa de c coincide con la literatura; la de b queda $2.0\sigma$ por encima de la m\'as precisa (ESPRESSO). Los residuos muestran adem\'as un exceso de se\~nal a 134~d, cerca del periodo de rotaci\'on estelar, que no es coherente entre temporadas y probablemente es actividad. En la segunda parte se calcula, de forma general, la zona habitable de estrellas de $0.1$ a $1.2~\Msun$ con modelos de evoluci\'on estelar (Baraffe et al.\ 2015) y las ecuaciones de Kopparapu et al.\ (2013), en funci\'on de la masa y de la edad. La zona se aleja de la estrella como $M^{1.1}$ entre $0.1$ y $0.5~\Msun$ y como $M^{2.3}$ entre $0.5$ y $1.0~\Msun$; los bordes casi no cambian con la edad para $M \lesssim 0.5~\Msun$ (menos de 2\% entre 1 y 4~Gyr) y cambian $17$--$20\%$ para $M \gtrsim 1.1~\Msun$. Aplicado a LHS~1140, b recibe $0.43~S_\oplus$ y est\'a dentro de la zona habitable conservadora; c recibe $5.3~S_\oplus$ y queda fuera.
 
-\medskip\noindent\textbf{Palabras clave:} exoplanetas, velocidad radial, tr\'ansitos, zona habitable, LHS~1140, HARPS, TESS.}
-\end{center}
-\vspace{4pt}
-}]
+\title{Masa, radio y zona habitable del sistema LHS~1140 a partir de velocidades radiales de HARPS y fotometr\'ia de TESS, y zona habitable de estrellas de baja masa}
+\author{Mateo Chavarr\'ia Gonz\'alez}
+\affiliation{Pregrado de Astronom\'ia, Instituto de F\'isica, Facultad de Ciencias Exactas y Naturales, Universidad de Antioquia UdeA, Calle 70 N. 52-21, Medell\'in, Colombia}
+\date{\today}
 
-%---------------------------------------------------------------------
+\begin{abstract}
+LHS~1140 es una enana M a unos 15~pc con dos planetas confirmados: LHS~1140~b, una supertierra templada en la zona habitable, y LHS~1140~c, una Tierra caliente interna. Se caracterizan ambos planetas con datos p\'ublicos: 293 espectros de HARPS del archivo de ESO, de los que se extraen velocidades radiales con el m\'etodo \emph{line-by-line} (LBL), y fotometr\'ia de TESS de los sectores 3, 30 y 107, que se ajusta con un modelo de tr\'ansito y MCMC. Las semiamplitudes son $K_b = 4.78 \pm 0.45~\ms$ y $K_c = 2.47 \pm 0.47~\ms$, y los radios $R_b = 1.78^{+0.10}_{-0.07}~\Rearth$ y $R_c = 1.25^{+0.06}_{-0.04}~\Rearth$. Con ellos se obtienen masas de $7.0 \pm 0.7~\Mearth$ para b y $1.96 \pm 0.37~\Mearth$ para c. La masa de c coincide con la literatura; la de b queda $2.0\sigma$ por encima de la m\'as precisa (ESPRESSO). Los residuos muestran adem\'as un exceso de se\~nal a 134~d, cerca del periodo de rotaci\'on estelar, que no es coherente entre temporadas y probablemente es actividad. En la segunda parte se calcula, de forma general, la zona habitable de estrellas de $0.1$ a $1.2~\Msun$ con modelos de evoluci\'on estelar (Baraffe et al.\ 2015) y las ecuaciones de Kopparapu et al.\ (2013), en funci\'on de la masa y de la edad. La zona se aleja de la estrella como $M^{1.1}$ entre $0.1$ y $0.5~\Msun$ y como $M^{2.3}$ entre $0.5$ y $1.0~\Msun$; los bordes casi no cambian con la edad para $M \lesssim 0.5~\Msun$ (menos de 2\% entre 1 y 4~Gyr) y cambian $17$--$20\%$ para $M \gtrsim 1.1~\Msun$. Aplicado a LHS~1140, b recibe $0.43~S_\oplus$ y est\'a dentro de la zona habitable conservadora; c recibe $5.3~S_\oplus$ y queda fuera.
+
+\end{abstract}
+\maketitle
+\noindent\textbf{Palabras clave:} exoplanetas, velocidad radial, tr\'ansitos, zona habitable, LHS~1140, HARPS, TESS..
+
 \section{Introducci\'on}
 
 LHS~1140 (TOI-256) es una enana M de $0.184~\Msun$ y $0.216~\Rsun$ (Cadieux et al.\ 2024). Dittmann et al.\ (2017) descubrieron a LHS~1140~b por tr\'ansito con MEarth y la confirmaron con HARPS. Despu\'es se detect\'o LHS~1140~c, interna, de periodo 3.78~d (Ment et al.\ 2019; Lillo-Box et al.\ 2020). Cadieux et al.\ (2024) combinaron TESS, ESPRESSO y observaciones atmosf\'ericas para fijar masas y radios con mucha m\'as precisi\'on, y concluyeron que b es un mini-Neptuno templado o un mundo de agua.
@@ -140,6 +138,7 @@ Con los periodos fijos, el ajuste de dos sinusoides da $K_b = 4.78 \pm 0.45~\ms$
 \begin{table}[!htb]
 \centering\footnotesize\setlength{\tabcolsep}{3pt}
 \caption{Sensibilidad al corte de S/N del orden 47.}\label{tab:sn}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcccc}
 \toprule
 Corte & Esp./noches & RMS (\ms) & $K_c$ (\ms) & $K_b$ (\ms)\\
@@ -150,11 +149,13 @@ $\ge 10$ & 207 / 112 & 5.25 & $2.4 \pm 0.5$ & $4.4 \pm 0.5$\\
 $\ge 12$ & 141 / 83 & 5.43 & $2.9 \pm 0.6$ & $4.8 \pm 0.6$\\
 \bottomrule
 \end{tabular}
+}%
 \end{table}
 
 \begin{table}[!htb]
 \centering\footnotesize\setlength{\tabcolsep}{3pt}
 \caption{Semiamplitudes de este trabajo frente a la literatura (en \ms). Las referencias son D17: Dittmann et al.\ 2017; M19: Ment et al.\ 2019; LB20: Lillo-Box et al.\ 2020; C24: Cadieux et al.\ 2024. La diferencia es $(K_\mathrm{este\ trabajo}-K_\mathrm{lit})/\sqrt{\sigma^2+\sigma_\mathrm{lit}^2}$, as\'i que el signo negativo indica que este trabajo da un $K$ menor.}\label{tab:klit}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{llcc}
 \toprule
 Planeta & Referencia & $K$ literatura & Diferencia\\
@@ -168,6 +169,7 @@ b & LB20 (ESPRESSO, CCF) & $4.21 \pm 0.24$ & $1.1\sigma$\\
 b & C24 (ESPRESSO, LBL) & $3.80 \pm 0.11$ & $2.1\sigma$\\
 \bottomrule
 \end{tabular}
+}%
 \end{table}
 
 \paragraph{Residuos.} Tras quitar b y c, el periodograma de los residuos tiene su pico m\'as alto en 134.3~d (potencia $0.228$, sobre el umbral de FAP de 0.1\% de $0.17$), con $K = 2.60 \pm 0.40~\ms$ y $\Delta\mathrm{BIC} = 22.5$ a favor de una tercera se\~nal. Ese periodo est\'a cerca del de rotaci\'on de la estrella, 131~d (Cadieux et al.\ 2024). Hay otros picos sobre el umbral a 68.6, 83.9 y 96.5~d. Tres pruebas indican que la se\~nal de 134~d no es planetaria:
@@ -193,6 +195,7 @@ Hay 3 tr\'ansitos de b con datos, todos completos, y 17 de c, 13 completos y 4 p
 \begin{table}[!htb]
 \centering\footnotesize\setlength{\tabcolsep}{3pt}
 \caption{Posteriores del ajuste de tr\'ansitos (mediana y percentiles 16 y 84). $T_0$ es el tiempo de tr\'ansito de referencia, en BTJD = BJD $-$ 2\,457\,000.}\label{tab:post}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcc}
 \toprule
 Par\'ametro & LHS~1140~b & LHS~1140~c\\
@@ -204,6 +207,7 @@ $a/R_\star$ & $83.6^{+10.7}_{-15.1}$ & $25.7^{+1.3}_{-4.0}$\\[2pt]
 $b$ & $0.51^{+0.20}_{-0.31}$ & $0.32^{+0.29}_{-0.22}$\\
 \bottomrule
 \end{tabular}
+}%
 \end{table}
 
 \figura{corner}{fig_corner.png}{8cm}{Distribuciones posteriores conjuntas de los par\'ametros del ajuste de tr\'ansitos de LHS~1140~b (el de c va en el material complementario). \emph{[Notebook 4, secci\'on 13.]}}
