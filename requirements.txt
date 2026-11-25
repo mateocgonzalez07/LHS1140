@@ -1,0 +1,12 @@
+numpy
+scipy
+pandas
+matplotlib
+astropy
+pyvo
+requests
+lightkurve
+pytransit
+emcee
+corner
+# notebook 2: LBL (line-by-line) se instala aparte, ver el notebook

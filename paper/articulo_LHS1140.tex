@@ -1,0 +1,356 @@
+% =====================================================================
+%  Articulo: LHS 1140 b y c (Ciencias Planetarias, UdeA, 2026)
+%  Compilar con XeLaTeX:  xelatex articulo_LHS1140.tex  (dos veces)
+%  Las figuras se leen de la carpeta figs/. Si el archivo no existe,
+%  el articulo deja un marco vacio con el nombre del archivo esperado.
+% =====================================================================
+\documentclass[10pt,a4paper,twocolumn]{article}
+\usepackage{polyglossia}
+\setmainlanguage{spanish}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1.9cm,columnsep=0.7cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=black,citecolor=black]{hyperref}
+\captionsetup{font=small,labelfont=bf}
+\setlist{itemsep=2pt,topsep=4pt}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{1.0em}
+\emergencystretch=2em
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+
+\newcommand{\Msun}{\ensuremath{M_\odot}}
+\newcommand{\Rsun}{\ensuremath{R_\odot}}
+\newcommand{\Lsun}{\ensuremath{L_\odot}}
+\newcommand{\Mearth}{\ensuremath{M_\oplus}}
+\newcommand{\Rearth}{\ensuremath{R_\oplus}}
+\newcommand{\ms}{\ensuremath{\mathrm{m\,s^{-1}}}}
+\newcommand{\nb}[1]{\texttt{\detokenize{#1}}}
+
+% \figura{etiqueta}{archivo}{alto del marco}{pie}   (una columna)
+% \figurawide{...}  (ancho de pagina, figure*)
+\newcommand{\figura}[4]{%
+  \begin{figure}[!htb]\centering
+  \IfFileExists{figs/#2}{\includegraphics[width=\linewidth,height=0.7\textheight,keepaspectratio]{figs/#2}}{%
+    \fbox{\parbox[c][#3][c]{0.94\linewidth}{\centering\small\color{gray}
+    Espacio para la figura\\[2pt]\nb{figs/#2}}}}%
+  \caption{#4}\label{fig:#1}
+  \end{figure}}
+\newcommand{\figurawide}[4]{%
+  \begin{figure*}[!t]\centering
+  \IfFileExists{figs/#2}{\includegraphics[width=0.92\textwidth]{figs/#2}}{%
+    \fbox{\parbox[c][#3][c]{0.9\textwidth}{\centering\small\color{gray}
+    Espacio para la figura\\[2pt]\nb{figs/#2}}}}%
+  \caption{#4}\label{fig:#1}
+  \end{figure*}}
+
+\begin{document}
+\twocolumn[{%
+\begin{center}
+{\LARGE\bfseries Masa, radio y zona habitable del sistema LHS~1140\\[2pt]
+\large a partir de velocidades radiales de HARPS y fotometr\'ia de TESS,\\
+y zona habitable de estrellas de baja masa}\\[8pt]
+{\large Mateo}\\[2pt]
+{\small Facultad de Ciencias Exactas y Naturales, Universidad de Antioquia, Medell\'in, Colombia}\\
+{\small Ciencias Planetarias}\\[2pt]
+{\small 27 de noviembre de 2026}
+\end{center}
+\begin{center}
+\parbox{0.88\textwidth}{\small\textbf{Resumen.} LHS~1140 es una enana M a unos 15~pc con dos planetas confirmados: LHS~1140~b, una supertierra templada en la zona habitable, y LHS~1140~c, una Tierra caliente interna. Se caracterizan ambos planetas con datos p\'ublicos: 293 espectros de HARPS del archivo de ESO, de los que se extraen velocidades radiales con el m\'etodo \emph{line-by-line} (LBL), y fotometr\'ia de TESS de los sectores 3, 30 y 107, que se ajusta con un modelo de tr\'ansito y MCMC. Las semiamplitudes son $K_b = 4.78 \pm 0.45~\ms$ y $K_c = 2.47 \pm 0.47~\ms$, y los radios $R_b = 1.78^{+0.10}_{-0.07}~\Rearth$ y $R_c = 1.25^{+0.06}_{-0.04}~\Rearth$. Con ellos se obtienen masas de $7.0 \pm 0.7~\Mearth$ para b y $1.96 \pm 0.37~\Mearth$ para c. La masa de c coincide con la literatura; la de b queda $2.0\sigma$ por encima de la m\'as precisa (ESPRESSO). Los residuos muestran adem\'as un exceso de se\~nal a 134~d, cerca del periodo de rotaci\'on estelar, que no es coherente entre temporadas y probablemente es actividad. En la segunda parte se calcula, de forma general, la zona habitable de estrellas de $0.1$ a $1.2~\Msun$ con modelos de evoluci\'on estelar (Baraffe et al.\ 2015) y las ecuaciones de Kopparapu et al.\ (2013), en funci\'on de la masa y de la edad. La zona se aleja de la estrella como $M^{1.1}$ entre $0.1$ y $0.5~\Msun$ y como $M^{2.3}$ entre $0.5$ y $1.0~\Msun$; los bordes casi no cambian con la edad para $M \lesssim 0.5~\Msun$ (menos de 2\% entre 1 y 4~Gyr) y cambian $17$--$20\%$ para $M \gtrsim 1.1~\Msun$. Aplicado a LHS~1140, b recibe $0.43~S_\oplus$ y est\'a dentro de la zona habitable conservadora; c recibe $5.3~S_\oplus$ y queda fuera.
+
+\medskip\noindent\textbf{Palabras clave:} exoplanetas, velocidad radial, tr\'ansitos, zona habitable, LHS~1140, HARPS, TESS.}
+\end{center}
+\vspace{4pt}
+}]
+
+%---------------------------------------------------------------------
+\section{Introducci\'on}
+
+LHS~1140 (TOI-256) es una enana M de $0.184~\Msun$ y $0.216~\Rsun$ (Cadieux et al.\ 2024). Dittmann et al.\ (2017) descubrieron a LHS~1140~b por tr\'ansito con MEarth y la confirmaron con HARPS. Despu\'es se detect\'o LHS~1140~c, interna, de periodo 3.78~d (Ment et al.\ 2019; Lillo-Box et al.\ 2020). Cadieux et al.\ (2024) combinaron TESS, ESPRESSO y observaciones atmosf\'ericas para fijar masas y radios con mucha m\'as precisi\'on, y concluyeron que b es un mini-Neptuno templado o un mundo de agua.
+
+Se eligi\'o LHS~1140 tras consultar el cat\'alogo de planetas confirmados del NASA Exoplanet Archive (Akeson et al.\ 2013), donde b ($P = 24.74$~d, $R = 1.73~\Rearth$, $M = 5.6~\Mearth$) y c ($P = 3.78$~d, $R = 1.27~\Rearth$) figuran como planetas confirmados por tr\'ansito, con masa y radio medidos, y con datos p\'ublicos de HARPS y TESS. Este trabajo tiene dos partes. En la primera (Problema 1) se repite, con datos p\'ublicos y herramientas abiertas, la parte b\'asica del an\'alisis de un sistema: construir la curva de velocidad radial (RV) y la curva de luz, calcular masa y radio de sus planetas y compararlos con la literatura, usando LHS~1140. En la segunda (Problema 2) se calcula, de forma general, la zona habitable de estrellas de masa $0.1$ a $1.2~\Msun$ a partir de modelos de evoluci\'on estelar y de las ecuaciones de Kopparapu et al.\ (2013), y se aplica el resultado a LHS~1140.
+
+%---------------------------------------------------------------------
+\section{Datos}
+
+\subsection{Velocidades radiales: HARPS}
+
+HARPS es un espectr\'ografo de alta resoluci\'on en el telescopio de 3.6~m de ESO en La Silla (Mayor et al.\ 2003). Se consult\'o el archivo de ESO por TAP y se descargaron 296 espectros reducidos \nb{e2ds_A}. Se descartaron 3 con S/N del orden 47 menor que 5, as\'i que quedan 293 espectros, con S/N de 5.6 a 17.5. Los espectros \nb{e2ds} no incluyen el blaze, que se tom\'o de un archivo \nb{HARPS_BLAZE_A_72.fits} y se us\'o el mismo para todas las \'epocas (limitaci\'on discutida en la Secci\'on~\ref{sec:disc}).
+
+\subsection{Fotometr\'ia: TESS}
+
+Se usaron las curvas de luz SPOC de TESS (flujo PDCSAP, cadencia de 120~s) de los sectores 3, 30 y 107, con 42\,973 puntos entre 2018 y 2026, descargadas del archivo MAST con \texttt{lightkurve}.
+
+%---------------------------------------------------------------------
+\section{M\'etodos (Problema 1)}
+
+\subsection{Extracci\'on de velocidades radiales}
+
+Las velocidades se extraen con LBL (Artigau et al.\ 2022), que mide el desplazamiento de cada l\'inea respecto a una plantilla construida con los propios datos. Se us\'o LBL 0.67.008 con \texttt{INSTRUMENT=HARPS}, \texttt{DATA\_SOURCE=ORIG}, una m\'ascara de l\'ineas para $T_\mathrm{eff} = 3213$~K y \texttt{SNR\_THRESHOLD=5}. La tabla resultante tiene 293 filas. Los espectros de una misma noche se promediaron con pesos $1/\sigma^2$, lo que da 147 noches, 127 de ellas con dos o m\'as espectros.
+
+\subsection{An\'alisis de las velocidades radiales}
+
+Se calcul\'o el periodograma generalizado de Lomb--Scargle (GLS; Zechmeister \& K\"urster 2009) de las medias por noche, con umbrales de falsa alarma (FAP) por \emph{bootstrap}. Se ajustaron dos sinusoides (\'orbitas circulares) con los periodos de la literatura, $P_b = 24.73723$~d y $P_c = 3.77794$~d (Cadieux et al.\ 2024), y se analizaron los residuos. Se repiti\'o el an\'alisis con distintos cortes de S/N, se compararon los residuos con los indicadores de actividad de LBL (d2v, dW, FWHM, contraste, CRX) y con la BERV, y se aplic\'o la prueba de cromaticidad de Cadieux et al.\ (2024, Ap\'endice~D.3): una se\~nal planetaria debe tener el mismo $K$ en todas las bandas de longitud de onda.
+
+\subsection{Ajuste de los tr\'ansitos}
+
+Las curvas de luz se aplanaron con \texttt{flatten} (ventana de 901 puntos), enmascarando los tr\'ansitos conocidos de b y c para no recortar su profundidad, y se eliminaron los valores a m\'as de $8\sigma$. Se cont\'o cu\'antos tr\'ansitos tienen datos; se consider\'o completo el que tiene al menos 65 de los 72 puntos esperados (90\%). Un \emph{box least squares} (BLS) dio los valores iniciales.
+
+Cada planeta se ajust\'o por separado en ventanas alrededor de sus tr\'ansitos con \texttt{PyTransit} (Parviainen 2015), con oscurecimiento al limbo cuadr\'atico fijo ($u_1 = 0.643$, $u_2 = -0.069$, derivado de los coeficientes de TESS de Cadieux et al.\ 2024; Kipping 2013) y los tr\'ansitos del otro planeta enmascarados. Los par\'ametros libres son $k = R_p/R_\star$, $T_0$, $P$, $a/R_\star$, el par\'ametro de impacto $b$ y un ruido adicional $\ln\sigma_j$, con priors uniformes ($k \in [0.003, 0.12]$, $T_0$ y $P$ en torno al valor BLS y $a/R_\star$ entre 0.5 y 1.5 veces el valor de la literatura). El muestreo se hizo con \texttt{emcee} (Foreman-Mackey et al.\ 2013): 32 caminantes, 25\,000 pasos y 8000 de \emph{burn-in}. La convergencia se midi\'o con el tiempo de autocorrelaci\'on $\tau$: el n\'umero de pasos debe superar $50\,\tau_\mathrm{max}$.
+
+\subsection{Masa, radio y semieje}
+
+Con la semiamplitud $K$ y el periodo, la masa del planeta (con $M_p \ll M_\star$) es
+\begin{equation}
+  M_p \sin i = K \left(\frac{P}{2\pi G}\right)^{1/3} M_\star^{2/3},
+  \label{eq:masa}
+\end{equation}
+con $M_\star = 0.1844 \pm 0.0045~\Msun$. La inclinaci\'on se obtiene de $b$ y de $a/R_\star$, $\cos i = b\,R_\star/a$, y el semieje de la tercera ley de Kepler,
+\begin{equation}
+  a^3 = \frac{G\,(M_\star + M_p)}{4\pi^2}\,P^2 .
+  \label{eq:kepler}
+\end{equation}
+El radio sale de la profundidad del tr\'ansito,
+\begin{equation}
+  R_p = k\,R_\star, \qquad R_\star = 0.2159 \pm 0.0030~\Rsun,
+  \label{eq:radio}
+\end{equation}
+y la densidad media de $\rho = 3M_p/(4\pi R_p^3)$. Las incertidumbres de $K$, $M_\star$ y $R_\star$ se propagan con las muestras del MCMC.
+
+\subsection{Excentricidad: efecto fotoexc\'entrico}
+
+Un ajuste con $e$ y $\omega$ libres y un prior de densidad estelar ($\rho_\star = 25.8 \pm 1.2~\mathrm{g\,cm^{-3}}$) permite ver si la duraci\'on del tr\'ansito exige una \'orbita exc\'entrica. Se us\'o la parametrizaci\'on $\sqrt{e}\cos\omega$, $\sqrt{e}\sin\omega$, con 40 caminantes y 12\,000 pasos.
+
+%---------------------------------------------------------------------
+\section{Resultados (Problema 1)}
+
+\subsection{Velocidades radiales}
+
+La serie tiene un RMS de 6.05~\ms{} por espectro (error mediano de 2.84~\ms) y de 5.91~\ms{} por noche (error mediano de 2.04~\ms). El periodograma de las medias por noche (Fig.~\ref{fig:rv_gls}) tiene su pico m\'as alto en 24.82~d, a $0.4$ de potencia, por encima de los umbrales de FAP de 1\% ($0.173$) y 0.1\% ($0.187$); coincide con $P_b$. En $P_c$ la potencia es de $0.086$, por debajo del umbral, as\'i que c no se detecta por s\'i sola en el periodograma.
+
+\figura{rv_gls}{fig_rv_gls.png}{7.5cm}{Velocidades radiales de HARPS (LBL): espectros individuales y promedios por noche (arriba) y periodograma GLS de los promedios, con los umbrales de falsa alarma de 1\% y 0.1\% y la funci\'on de ventana (abajo). Las l\'ineas verdes marcan los periodos de b y c. \emph{[Notebook 3, secciones 2 y 3.]}}
+
+Con los periodos fijos, el ajuste de dos sinusoides da $K_b = 4.78 \pm 0.45~\ms$ ($10.5\sigma$) y $K_c = 2.47 \pm 0.47~\ms$ ($5.3\sigma$), con $\chi^2_\nu = 3.62$, y el RMS baja de 5.91 a 4.33~\ms{} (Fig.~\ref{fig:rv_fase}). El valor de $K$ es positivo por construcci\'on y tiende a sobreestimarse cuando la se\~nal es d\'ebil. Los resultados son estables al cortar por S/N (Tabla~\ref{tab:sn}). Frente a la literatura, $K_c$ coincide con todas las referencias dentro de $0.5\sigma$, y $K_b$ coincide con las medidas hechas con HARPS, pero es mayor que las de ESPRESSO (Tabla~\ref{tab:klit}).
+
+\figurawide{rv_fase}{fig_rv_fase.png}{6.5cm}{Curvas de velocidad radial plegadas de LHS~1140~b (izquierda) y c (derecha), tras restar la se\~nal del otro planeta, con los datos promediados en bins de fase. \emph{[Notebook 3, secci\'on 11.]}}
+
+\begin{table}[!htb]
+\centering\footnotesize\setlength{\tabcolsep}{3pt}
+\caption{Sensibilidad al corte de S/N del orden 47.}\label{tab:sn}
+\begin{tabular}{lcccc}
+\toprule
+Corte & Esp./noches & RMS (\ms) & $K_c$ (\ms) & $K_b$ (\ms)\\
+\midrule
+todos & 293 / 147 & 5.91 & $2.5 \pm 0.5$ & $4.8 \pm 0.5$\\
+$\ge 8$ & 258 / 132 & 5.90 & $2.4 \pm 0.5$ & $4.7 \pm 0.5$\\
+$\ge 10$ & 207 / 112 & 5.25 & $2.4 \pm 0.5$ & $4.4 \pm 0.5$\\
+$\ge 12$ & 141 / 83 & 5.43 & $2.9 \pm 0.6$ & $4.8 \pm 0.6$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!htb]
+\centering\footnotesize\setlength{\tabcolsep}{3pt}
+\caption{Semiamplitudes de este trabajo frente a la literatura (en \ms). Las referencias son D17: Dittmann et al.\ 2017; M19: Ment et al.\ 2019; LB20: Lillo-Box et al.\ 2020; C24: Cadieux et al.\ 2024. La diferencia es $(K_\mathrm{este\ trabajo}-K_\mathrm{lit})/\sqrt{\sigma^2+\sigma_\mathrm{lit}^2}$, as\'i que el signo negativo indica que este trabajo da un $K$ menor.}\label{tab:klit}
+\begin{tabular}{llcc}
+\toprule
+Planeta & Referencia & $K$ literatura & Diferencia\\
+\midrule
+c & M19 (HARPS) & $2.35 \pm 0.49$ & $0.2\sigma$\\
+c & LB20 (ESPRESSO, CCF) & $2.22 \pm 0.20$ & $0.5\sigma$\\
+c & C24 (ESPRESSO, LBL) & $2.42 \pm 0.07$ & $0.1\sigma$\\
+b & D17 (HARPS) & $5.34 \pm 1.10$ & $-0.5\sigma$\\
+b & M19 (HARPS) & $4.85 \pm 0.55$ & $-0.1\sigma$\\
+b & LB20 (ESPRESSO, CCF) & $4.21 \pm 0.24$ & $1.1\sigma$\\
+b & C24 (ESPRESSO, LBL) & $3.80 \pm 0.11$ & $2.1\sigma$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Residuos.} Tras quitar b y c, el periodograma de los residuos tiene su pico m\'as alto en 134.3~d (potencia $0.228$, sobre el umbral de FAP de 0.1\% de $0.17$), con $K = 2.60 \pm 0.40~\ms$ y $\Delta\mathrm{BIC} = 22.5$ a favor de una tercera se\~nal. Ese periodo est\'a cerca del de rotaci\'on de la estrella, 131~d (Cadieux et al.\ 2024). Hay otros picos sobre el umbral a 68.6, 83.9 y 96.5~d. Tres pruebas indican que la se\~nal de 134~d no es planetaria:
+\begin{itemize}
+  \item \textbf{Coherencia entre temporadas.} Al ajustar cada mitad de los datos, $K_b$ y su fase se mantienen ($5.7 \pm 0.6 \to 4.6 \pm 0.5~\ms$, fase $141^\circ \to 122^\circ$), pero la se\~nal de 134~d cae a menos de la mitad ($K = 4.0 \pm 0.7 \to 1.8 \pm 0.4~\ms$, fase $97^\circ \to 78^\circ$; Fig.~\ref{fig:res134}).
+  \item \textbf{Cromaticidad.} La pendiente de $K$ con la longitud de onda es compatible con cero para b y c ($-0.52 \pm 0.50$ y $-0.40 \pm 0.47~\ms$ por 100~nm), pero es $+1.20 \pm 0.47~\ms$ por 100~nm ($2.5\sigma$) para la de 134~d. En la misma prueba, Cadieux et al.\ (2024) obtienen pendientes de $0.11 \pm 0.10$ (b) y $0.03 \pm 0.08$ (c); Fig.~\ref{fig:cromaticidad}.
+  \item \textbf{Indicadores de actividad.} Los residuos se correlacionan con d2v, dW y FWHM ($r = -0.43$) y con el contraste ($r = +0.44$), pero no con la BERV ni con CRX ($r = -0.1$). Al restar d2v, el RMS de los residuos baja de 4.33 a 3.92~\ms{} y los picos de 69, 84 y 96~d caen (de $0.205$, $0.200$ y $0.192$ a $0.160$, $0.166$ y $0.124$), mientras que el de 134~d no ($0.228 \to 0.232$; Fig.~\ref{fig:actividad}).
+\end{itemize}
+
+\figurawide{res134}{fig_res134.png}{4cm}{Residuos tras restar b y c. Izquierda: periodograma GLS con los umbrales de falsa alarma de 1\% y 0.1\% (l\'inea verde: 134.3~d). Derecha: residuos plegados a 134.3~d, con las dos mitades de los datos en colores distintos y el ajuste sinusoidal. \emph{[Notebook 3, secci\'on ``Residuos plegados''.]}}
+
+\figurawide{cromaticidad}{fig_cromaticidad.png}{3.5cm}{Prueba de cromaticidad: $K$ ajustado en cada banda de longitud de onda para la se\~nal de c, la de b y la de 134~d. La banda roja es el $K$ del espectro completo. \emph{[Notebook 3, secci\'on ``Gr\'afica de $K$ por banda''.]}}
+
+\figura{actividad}{fig_actividad.png}{9cm}{Periodogramas GLS de los residuos (arriba) y de los indicadores de actividad de LBL. L\'ineas rojas: los picos m\'as altos de los residuos (68.6, 83.9 y 96.5~d); l\'inea verde: periodo de rotaci\'on estelar. El \'ultimo panel (CCF) est\'a vac\'io en el notebook. \emph{[Notebook 3, secci\'on ``Periodogramas de los indicadores''.]}}
+
+
+\subsection{Tr\'ansitos}
+
+Hay 3 tr\'ansitos de b con datos, todos completos, y 17 de c, 13 completos y 4 parciales (Fig.~\ref{fig:transitos}). El BLS da, para b, $P = 24.7373$~d, duraci\'on de 1.93~h y profundidad de 5.6~ppt, y para c, $P = 3.7779$~d, 1.09~h y 2.8~ppt. La Tabla~\ref{tab:post} muestra los posteriores del MCMC. Las cadenas tienen una fracci\'on de aceptaci\'on de $0.35$ (b) y $0.37$ (c) y $\tau_\mathrm{max}\approx 470$ pasos, as\'i que 25\,000 pasos son $53.5\,\tau_\mathrm{max}$ para b y $53.4\,\tau_\mathrm{max}$ para c: cumplen el criterio de 50, pero con poco margen. El ruido adicional $\ln\sigma_j$ no est\'a restringido y es compatible con cero ruido extra.
+
+\figurawide{transitos}{fig_transitos.png}{6.5cm}{Curvas de luz de TESS plegadas con el periodo del BLS (aplanadas, sin binning) de LHS~1140~b (izquierda) y c (derecha). Los puntos son los datos de los sectores 3, 30 y 107. \emph{[Notebook 4, secci\'on 6.]}}
+
+\begin{table}[!htb]
+\centering\footnotesize\setlength{\tabcolsep}{3pt}
+\caption{Posteriores del ajuste de tr\'ansitos (mediana y percentiles 16 y 84). $T_0$ es el tiempo de tr\'ansito de referencia, en BTJD = BJD $-$ 2\,457\,000.}\label{tab:post}
+\begin{tabular}{lcc}
+\toprule
+Par\'ametro & LHS~1140~b & LHS~1140~c\\
+\midrule
+$k = R_p/R_\star$ & $0.0757^{+0.0042}_{-0.0029}$ & $0.0530^{+0.0025}_{-0.0014}$\\[2pt]
+$T_0$ (BTJD) & $2142.0469 \pm 0.0008$ & $2133.5481 \pm 0.0004$\\[2pt]
+$P$ (d) & $24.737246 \pm 0.000016$ & $3.777936 \pm 0.000001$\\[2pt]
+$a/R_\star$ & $83.6^{+10.7}_{-15.1}$ & $25.7^{+1.3}_{-4.0}$\\[2pt]
+$b$ & $0.51^{+0.20}_{-0.31}$ & $0.32^{+0.29}_{-0.22}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\figura{corner}{fig_corner.png}{8cm}{Distribuciones posteriores conjuntas de los par\'ametros del ajuste de tr\'ansitos de LHS~1140~b (el de c va en el material complementario). \emph{[Notebook 4, secci\'on 13.]}}
+
+\subsection{Masas, radios y semiejes}
+
+La Tabla~\ref{tab:fis} resume los par\'ametros f\'isicos. Los radios coinciden con la literatura a $+3.0\%$ (b) y $-1.9\%$ (c), dentro de las incertidumbres. Los semiejes salen de la ecuaci\'on~(\ref{eq:kepler}) y coinciden con los de la literatura ($0.0946 \pm 0.0008$ y $0.0270 \pm 0.0002$~ua). Las masas salen de la ecuaci\'on~(\ref{eq:masa}) con $K_b = 4.78 \pm 0.45~\ms$ y $K_c = 2.47 \pm 0.47~\ms$, y una inclinaci\'on cercana a $90^\circ$ ($\sin i = 0.99997$ y $0.99979$). La masa de c coincide con la de Cadieux et al.\ (2024) y la de b es $2.0\sigma$ mayor. (la diferencia en $K_b$ es de $2.1\sigma$, Tabla~\ref{tab:klit}; la de la masa es ligeramente menor porque incluye la incertidumbre de $M_\star$ y de la propagaci\'on) La densidad de b es de unos $6.9~\mathrm{g\,cm^{-3}}$ y la de c de unos $5.6~\mathrm{g\,cm^{-3}}$, con una incertidumbre cercana al 20\% en ambas (propagaci\'on simple de errores).
+
+\begin{table*}[!t]
+\centering\small
+\caption{Par\'ametros f\'isicos de este trabajo y de la literatura (Cadieux et al.\ 2024).}\label{tab:fis}
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{LHS~1140~b} & \multicolumn{2}{c}{LHS~1140~c}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & Este trabajo & Literatura & Este trabajo & Literatura\\
+\midrule
+$R_p$ (\Rearth) & $1.78^{+0.10}_{-0.07}$ & 1.730 & $1.25^{+0.06}_{-0.04}$ & 1.272\\[2pt]
+$M_p$ (\Mearth) & $7.02^{+0.67}_{-0.66}$ & $5.60 \pm 0.19$ & $1.96^{+0.36}_{-0.38}$ & $1.91 \pm 0.06$\\[2pt]
+$a$ (ua) & $0.0946 \pm 0.0008$ & $0.0946 \pm 0.0017$ & $0.0270 \pm 0.0002$ & $0.0270 \pm 0.0005$\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Excentricidad}
+
+Con $e$ y $\omega$ libres, TESS por s\'i solo da $e = 0.16^{+0.20}_{-0.12}$ para b y $e = 0.11^{+0.21}_{-0.09}$ para c, con l\'imites superiores al 95\% de $0.45$ y $0.44$. El posterior de $\rho_\star$ es igual al prior, as\'i que la fotometr\'ia no aporta informaci\'on nueva sobre la densidad. Los radios casi no cambian ($1.75$ y $1.24~\Rearth$). Los l\'imites de la literatura, $e < 0.043$ y $e < 0.050$, vienen de las velocidades radiales y son mucho m\'as estrictos. En estos ajustes los pasos son $42\,\tau_\mathrm{max}$ (b) y $46\,\tau_\mathrm{max}$ (c), menos que el m\'inimo de 50, as\'i que se toman como orientativos.
+
+%---------------------------------------------------------------------
+\section{Zona habitable de estrellas de baja masa (Problema 2)}\label{sec:zh}
+
+\subsection{Modelo estelar}
+
+Se necesitan la luminosidad $L_\star$ y la temperatura efectiva $T_\mathrm{eff}$ en funci\'on de la masa y la edad. Se usaron las trayectorias de Baraffe et al.\ (2015) para composici\'on solar ($Z = 0.0153$), evaluadas con el m\'odulo \texttt{stellar} de VPLanet (Barnes et al.\ 2020) para 28 masas entre $0.1$ y $1.2~\Msun$ y cinco edades (1, 2, 3, 4 y 4.6~Gyr). Las trayectorias terminan cuando la estrella sale de la secuencia principal: para 1.15 y $1.2~\Msun$ no hay modelo a 4.6~Gyr, por lo que la edad de referencia es 4~Gyr, la mayor con todas las masas. Todos los modelos usados quedan dentro del intervalo de validez de Kopparapu et al.\ (2013), $2600 \le T_\mathrm{eff} \le 7200$~K (la menor, a $0.1~\Msun$, es de 2811~K a 4~Gyr). Para obtener curvas continuas, $\log L_\star$ y $T_\mathrm{eff}$ se interpolan linealmente en $\log M_\star$ a una malla de $0.01~\Msun$, sin extrapolar fuera de cada trayectoria.
+
+\subsection{Bordes de la zona habitable}
+
+El flujo estelar efectivo en cada borde (Kopparapu et al.\ 2013) es
+\begin{equation}
+  \begin{split}
+  S_\mathrm{eff} &= S_0 + A\,T_\star + B\,T_\star^2 + C\,T_\star^3 + D\,T_\star^4,\\
+  T_\star &= T_\mathrm{eff} - 5780~\mathrm{K},
+  \end{split}
+  \label{eq:seff}
+\end{equation}
+y la distancia al borde es
+\begin{equation}
+  d_\mathrm{HZ} = \sqrt{\frac{L_\star/\Lsun}{S_\mathrm{eff}}}~\mathrm{ua}.
+  \label{eq:dhz}
+\end{equation}
+Se usaron los coeficientes de la Tabla~3 para un planeta de una masa terrestre. Los cuatro bordes son \emph{Recent Venus} (interno optimista), \emph{Moist Greenhouse} (interno conservador), \emph{Maximum Greenhouse} (externo conservador) y \emph{Early Mars} (externo optimista); la zona conservadora va entre los dos del medio y la optimista entre los extremos. Para expresar la zona como periodo orbital se us\'o la tercera ley de Kepler con $M_p \ll M_\star$, $P = 365.25\sqrt{a^3/M_\star}$~d (con $a$ en ua y $M_\star$ en \Msun). Como prueba, el Sol real ($L = 1~\Lsun$, $T_\mathrm{eff} = 5772$~K) da una zona conservadora de 0.993 a 1.707~ua, que coincide con los 0.99 y 1.70~ua de Kopparapu et al.\ (2013).
+
+\subsection{Resultados generales}
+
+\paragraph{Luminosidad y escala.} A 4~Gyr, $L_\star$ pasa de $8.7\times10^{-4}$ a $3.6\times10^{-2}~\Lsun$ entre $0.1$ y $0.5~\Msun$ (Tabla~\ref{tab:zh}). Ajustando una ley de potencias $L_\star \propto M_\star^{\,n}$ resulta $n = 2.17$ entre $0.1$ y $0.5~\Msun$ y $n = 4.78$ entre $0.5$ y $1.0~\Msun$: la pendiente no es constante, y es mucho menor que la de la secuencia principal solar. Como los bordes escalan con $\sqrt{L_\star}$ (corregido por el efecto de $T_\mathrm{eff}$ en $S_\mathrm{eff}$), el borde interno crece como $M_\star^{1.08}$ en el primer tramo y como $M_\star^{2.28}$ en el segundo.
+
+\paragraph{Zona habitable frente a la masa.} La Fig.~\ref{fig:zh_masa} (izquierda) muestra los cuatro bordes a 4~Gyr y la Tabla~\ref{tab:zh} los valores conservadores. La zona va de $0.032$--$0.063$~ua para $0.1~\Msun$ a $1.6$--$2.7$~ua para $1.2~\Msun$. El ancho absoluto crece con la masa, pero el cociente borde externo/borde interno baja de $1.96$ ($0.1~\Msun$) a $1.70$ ($1.2~\Msun$).
+
+\paragraph{Dependencia con la edad.} La Fig.~\ref{fig:zh_masa} (centro) muestra el cambio del borde externo conservador respecto a 1~Gyr. Entre 1 y 4~Gyr el cambio es menor que $2.7\%$ para $M_\star \le 0.7~\Msun$ (por ejemplo $-0.1\%$ a $0.1~\Msun$ y $+1.3\%$ a $0.5~\Msun$), sube a $+6.6\%$ a $0.9~\Msun$ y a $+10.6\%$ a $1.0~\Msun$, y llega a $+16.7\%$ y $+19.7\%$ a $1.1$ y $1.2~\Msun$. Para estrellas de baja masa, la zona habitable es entonces casi independiente de la edad dentro del rango del modelo, mientras que para estrellas de tipo solar se desplaza hacia afuera a medida que la estrella se vuelve m\'as luminosa. Con el modelo de $1.0~\Msun$ a 4.6~Gyr ($L = 0.985~\Lsun$, $T_\mathrm{eff} = 5717$~K) la zona conservadora va de $0.988$ a $1.702$~ua; con el Sol real, la Tierra y Marte quedan dentro y Venus fuera.
+
+\paragraph{Periodo orbital.} La Fig.~\ref{fig:zh_masa} (derecha) y la Tabla~\ref{tab:zh} expresan la zona como periodo orbital. Un planeta en la zona conservadora de una estrella de $0.1~\Msun$ tiene periodo de 6.6 a 18.1~d, y de $0.5~\Msun$, de 47 a 122~d, frente a 345--781~d para $1.0~\Msun$. Por eso las enanas M son los objetivos m\'as favorables para detectar planetas habitables por tr\'ansito y RV.
+
+\figurawide{zh_masa}{fig_zh_masa.png}{5.2cm}{Zona habitable de estrellas de $0.1$ a $1.2~\Msun$ (malla de $0.01~\Msun$ interpolada del modelo de Baraffe et al.\ 2015). Izquierda: bordes en funci\'on de la masa a 4~Gyr (banda oscura: conservadora; clara: optimista), con Venus, la Tierra y Marte, y los planetas b y c de LHS~1140. Centro: cambio del borde externo conservador respecto a 1~Gyr. Derecha: la misma zona en periodo orbital. \emph{[Problema 2, secci\'on ``Zona habitable general en malla fina de masa''.]}}
+
+\begin{table*}[!t]
+\centering\small
+\caption{Luminosidad, temperatura, bordes conservadores de la zona habitable y periodos orbitales en esos bordes, a 4~Gyr.}\label{tab:zh}
+\begin{tabular}{ccccccc}
+\toprule
+$M_\star$ (\Msun) & $L$ (\Lsun) & $T_\mathrm{eff}$ (K) & $a_\mathrm{int}$ (ua) & $a_\mathrm{ext}$ (ua) & $P_\mathrm{int}$ (d) & $P_\mathrm{ext}$ (d)\\
+\midrule
+0.10 & 0.00087 & 2811 & 0.0320 & 0.0627 & 6.6 & 18.1\\
+0.20 & 0.00481 & 3262 & 0.0747 & 0.1438 & 16.7 & 44.5\\
+0.30 & 0.01080 & 3416 & 0.1116 & 0.2135 & 24.9 & 65.8\\
+0.50 & 0.03573 & 3680 & 0.2018 & 0.3820 & 46.8 & 122.0\\
+0.70 & 0.14289 & 4418 & 0.3953 & 0.7243 & 108.5 & 269.1\\
+1.00 & 0.93422 & 5696 & 0.9631 & 1.6603 & 345.2 & 781.4\\
+1.10 & 1.68333 & 5995 & 1.2774 & 2.1728 & 502.8 & 1115.4\\
+1.20 & 2.68136 & 6057 & 1.6083 & 2.7285 & 680.0 & 1502.7\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Aplicaci\'on a LHS~1140}
+
+La luminosidad de LHS~1140 es $L = R_\star^2 (T_\mathrm{eff}/5772~\mathrm{K})^4 = 0.00386~\Lsun$. Con ella, la zona habitable conservadora va de $0.0671$ a $0.1301$~ua y la optimista de $0.0507$ a $0.1353$~ua (Fig.~\ref{fig:sistema}). LHS~1140~b, a $0.0946$~ua, recibe $0.43~S_\oplus$ y queda dentro de la zona habitable, conservadora y optimista. LHS~1140~c, a $0.0270$~ua, recibe $5.29~S_\oplus$ y queda fuera de ambas. El periodo de b (24.7~d) cae dentro del intervalo de periodos de la zona conservadora de una estrella de $0.2~\Msun$ (Tabla~\ref{tab:zh}), mientras que el de c (3.8~d) queda por debajo del de cualquier zona de la malla (Fig.~\ref{fig:zh_masa}, derecha). El modelo de Baraffe et al.\ (2015) a 4.6~Gyr da para una estrella de $0.1844~\Msun$ una luminosidad de $0.00392~\Lsun$ (+1.6\%), una $T_\mathrm{eff}$ de 3220~K ($+124$~K) y un radio de $0.2007~\Rsun$ ($-7.0\%$) frente a los valores medidos, y una zona habitable conservadora de $0.0675$ a $0.1302$~ua, casi igual a la obtenida con los valores medidos.
+
+\figura{sistema}{fig_sistema_zh.png}{7cm}{LHS~1140 visto desde arriba: \'orbitas circulares de b y c y zona habitable (banda oscura: conservadora; clara: optimista). \emph{[Notebook 4, secci\'on 21.]}}
+
+%---------------------------------------------------------------------
+\section{Discusi\'on}\label{sec:disc}
+
+\paragraph{Masa de b.} La masa de b sale $2.0\sigma$ por encima de la m\'as precisa de la literatura (ESPRESSO con LBL: $K_b = 3.80 \pm 0.11~\ms$), pero coincide con las medidas de HARPS (D17 y M19, Tabla~\ref{tab:klit}). Es esperable: HARPS tiene menos precisi\'on en una enana M tan d\'ebil (S/N de 6 a 17 en el orden 47) y las incertidumbres de $K_b$ de este trabajo son cuatro veces mayores que las de ESPRESSO. Adem\'as, el periodo de 24.7~d est\'a cerca del primer m\'ultiplo de la ventana de observaci\'on, y la se\~nal espuria de 134~d no se ha restado de $K_b$. Con una incertidumbre de $0.45~\ms$, la diferencia de $1~\ms$ no permite descartar un sesgo de HARPS, por ejemplo por actividad, ni una masa real algo mayor.
+
+\paragraph{La se\~nal de 134~d.} Su periodo coincide con la rotaci\'on estelar, su amplitud no se mantiene entre temporadas, es crom\'atica a $2.5\sigma$ y los residuos se correlacionan con indicadores de forma de l\'inea. Todo apunta a actividad y no a un tercer planeta. Esta conclusi\'on es provisional: el bootstrap supone ruido blanco y con ruido correlacionado subestima la falsa alarma, y el periodo se eligi\'o mirando los datos, por lo que $\Delta\mathrm{BIC}$ est\'a sobreestimado.
+
+\paragraph{Excentricidad.} Con tres tr\'ansitos de b y la fotometr\'ia por s\'i sola no hay informaci\'on suficiente sobre $e$: los l\'imites obtenidos no contradicen los de la literatura, solo no los mejoran. La asunci\'on de \'orbita circular para las masas es razonable porque $e < 0.05$ en ambos planetas (Cadieux et al.\ 2024).
+
+\paragraph{Zona habitable, caso general.} Los bordes dependen del modelo clim\'atico 1D de Kopparapu et al.\ (2013), sin nubes, para un planeta de una masa terrestre y una atm\'osfera tipo Tierra. Para $M_\star \lesssim 0.3~\Msun$, la rotaci\'on sincr\'onica y la actividad estelar (llamaradas, flujo XUV) pueden desplazar o anular la habitabilidad, algo que los bordes no capturan. Los modelos de Baraffe et al.\ (2015) dan radios algo menores que los medidos (en LHS~1140, $-7\%$), aunque $L$, que es lo que entra en la zona habitable, es mucho menos sensible. La dependencia d\'ebil con la edad para $M \lesssim 0.7~\Msun$ se debe a que estas estrellas evolucionan muy poco en 1--4.6~Gyr; no incluye la fase de preSecuencia Principal, durante la cual la zona habitable de una enana M est\'a mucho m\'as lejos. La interpolaci\'on a la malla fina es lineal en $\log M$ y puede suavizar rasgos reales del modelo entre masas tabuladas, sobre todo para $M > 1.1~\Msun$, donde $T_\mathrm{eff}$ se aplana al acercarse al final de la secuencia principal.
+
+\paragraph{Zona habitable de LHS~1140~b.} Que b est\'e dentro de la zona habitable usa los coeficientes para un planeta de una masa terrestre y una atm\'osfera tipo Tierra; b tiene unas 5 a 7 masas terrestres, y para otras masas Kopparapu et al.\ (2013) dan otras tablas. Adem\'as, el modelo clim\'atico es 1D, sin nubes, y alrededor de enanas M los planetas suelen estar en rotaci\'on sincr\'onica, lo que puede mover los bordes. La densidad estimada ($\sim 6.9~\mathrm{g\,cm^{-3}}$) no distingue por s\'i sola entre un planeta rocoso, un mundo de agua o un mini-Neptuno; esa discusi\'on depende de la masa precisa, que es donde difieren los resultados.
+
+\paragraph{Limitaciones.}
+\begin{itemize}
+  \item Se us\'o un solo blaze para todas las \'epocas de HARPS, no el de cada noche, que no est\'a en el archivo de ESO. Un blaze inadecuado puede introducir ruido en la velocidad radial.
+  \item d2v, dW y FWHM tienen correlaci\'on 1.0 en la tabla de LBL, as\'i que cuentan como un solo indicador de actividad, no como tres.
+  \item Cada planeta se ajust\'o por separado, con oscurecimiento al limbo fijo y \'orbita circular; no hay ajuste simult\'aneo ni TTV.
+  \item $\tau_\mathrm{max} \approx 470$ pasos en el ajuste circular (53 veces) y 42--46 veces en el exc\'entrico, al l\'imite del criterio.
+  \item El periodo de c ($3.777936 \pm 0.000001$~d) difiere de la literatura ($3.777940$~d) en $4 \times 10^{-6}$~d, unas $4\sigma$ formales; probablemente la incertidumbre est\'a subestimada por el ruido correlacionado y por la cobertura irregular de TESS. El de b difiere $1.6 \times 10^{-5}$~d ($1\sigma$).
+  \item En el Problema 2, el modelo estelar solo tiene 28 masas y 5 edades (1 a 4.6~Gyr); la malla fina es una interpolaci\'on, no una evaluaci\'on nueva del modelo.
+\end{itemize}
+
+%---------------------------------------------------------------------
+\section{Conclusiones}
+
+\begin{enumerate}
+  \item Con 293 espectros de HARPS y LBL se detectan LHS~1140~b ($K = 4.78 \pm 0.45~\ms$, $10.5\sigma$) y c ($K = 2.47 \pm 0.47~\ms$, $5.3\sigma$). Con la fotometr\'ia de TESS se miden $R_b = 1.78~\Rearth$ y $R_c = 1.25~\Rearth$, en acuerdo con la literatura.
+  \item Las masas resultantes son $M_b = 7.0 \pm 0.7~\Mearth$ y $M_c = 1.96 \pm 0.37~\Mearth$. La de c coincide con la literatura; la de b queda $2.0\sigma$ por encima de ESPRESSO y concuerda con las medidas de HARPS.
+  \item El exceso de se\~nal a 134~d en los residuos es probablemente actividad estelar: no es coherente entre temporadas, es crom\'atico y se correlaciona con indicadores de forma de l\'inea.
+  \item TESS por s\'i sola no restringe la excentricidad ($e < 0.45$ al 95\%); los l\'imites de la literatura vienen de la RV.
+  \item La zona habitable conservadora de estrellas de $0.1$ a $1.2~\Msun$ se aleja de la estrella como $M^{1.1}$ (hasta $0.5~\Msun$) y $M^{2.3}$ (de $0.5$ a $1.0~\Msun$), y va de $0.032$--$0.063$~ua a $1.6$--$2.7$~ua. Casi no depende de la edad para $M \lesssim 0.7~\Msun$ (menos de 3\% entre 1 y 4~Gyr) y s\'i para $M \gtrsim 1.0~\Msun$ (11--20\%). En una enana M de $0.1$--$0.5~\Msun$ los periodos en la zona van de 7 a 122~d.
+  \item Aplicado a LHS~1140, b ($0.43~S_\oplus$) est\'a dentro de la zona habitable conservadora de su estrella y c ($5.3~S_\oplus$) est\'a fuera. El modelo estelar reproduce la $L$ medida de LHS~1140 con $1.6\%$ de diferencia y la zona habitable casi sin cambio.
+  \item Las mejoras m\'as claras son usar el blaze de cada noche, ajustar ambos planetas a la vez con un proceso gaussiano para la actividad, alargar las cadenas del ajuste exc\'entrico, y a\~nadir al c\'alculo de la zona habitable los coeficientes de Kopparapu para otras masas planetarias y la fase previa a la secuencia principal.
+\end{enumerate}
+
+\section*{Agradecimientos}
+
+Las secciones de descarga de datos (0 a 8 del notebook~1) vienen del trabajo de mi compa\~nero Juan David. Se us\'o Claude (Anthropic) como asistente para escribir y depurar el c\'odigo y revisar este texto. Este trabajo usa datos del archivo de ESO (programas de HARPS) y del archivo MAST (misi\'on TESS), y el software \texttt{lightkurve}, \texttt{PyTransit}, \texttt{emcee}, \texttt{LBL}, VPLanet, NumPy, SciPy, Matplotlib y Astropy. El c\'odigo y los cuadernos est\'an disponibles bajo licencia MIT en el repositorio del trabajo.
+
+\section*{Referencias}
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,label={}]
+  \footnotesize
+  \item Akeson, R. L., et al.\ 2013, PASP, 125, 989. \emph{The NASA Exoplanet Archive: Data and Tools for Exoplanet Research.}
+  \item Artigau, \'E., et al.\ 2022, AJ, 164, 84. \emph{Line-by-Line Velocity Measurements: an Outlier-resistant Method for Precision Velocimetry.}
+  \item Baraffe, I., et al.\ 2015, A\&A, 577, A42. \emph{New evolutionary models for pre-main sequence and main sequence low-mass stars down to the hydrogen-burning limit.}
+  \item Barnes, R., et al.\ 2020, PASP, 132, 024502. \emph{VPLanet: The Virtual Planet Simulator.}
+  \item Cadieux, C., et al.\ 2024, ApJL, 960, L3 (arXiv:2310.15490). \emph{New Mass and Radius Constraints on the LHS 1140 Planets: LHS 1140 b Is Either a Temperate Mini-Neptune or a Water World.}
+  \item Dittmann, J. A., et al.\ 2017, Nature, 544, 333. \emph{A temperate rocky super-Earth transiting a nearby cool star.}
+  \item Foreman-Mackey, D., et al.\ 2013, PASP, 125, 306. \emph{emcee: The MCMC Hammer.}
+  \item Kipping, D. M. 2013, MNRAS, 435, 2152. \emph{Efficient, uninformative sampling of limb darkening coefficients for two-parameter laws.}
+  \item Kopparapu, R. K., et al.\ 2013, ApJ, 765, 131. \emph{Habitable Zones around Main-sequence Stars: New Estimates.}
+  \item Lillo-Box, J., et al.\ 2020, A\&A, 642, A121. \emph{Planetary system LHS 1140 revisited with ESPRESSO and TESS.}
+  \item Mayor, M., et al.\ 2003, The Messenger, 114, 20. \emph{Setting New Standards with HARPS.}
+  \item Ment, K., et al.\ 2019, AJ, 157, 32. \emph{A second terrestrial planet orbiting the nearby M dwarf LHS 1140.}
+  \item Parviainen, H. 2015, MNRAS, 450, 3233. \emph{PyTransit: fast and versatile exoplanet transit light curve modelling in Python.}
+  \item Ricker, G. R., et al.\ 2015, JATIS, 1, 014003. \emph{Transiting Exoplanet Survey Satellite (TESS).}
+  \item Zechmeister, M., \& K\"urster, M. 2009, A\&A, 496, 577. \emph{The generalised Lomb-Scargle periodogram.}
+\end{itemize}
+
+\end{document}
