@@ -82,8 +82,10 @@ Y, si usas el diagrama masa-radio, a [mr-plotter](https://github.com/castro-gzlz
 
 ## Agradecimientos
 
-A Camilo A. Ospinal Achicanoy y al semillero COSMIA-UdeA por el blaze de HARPS, el taller de LBL y los notebooks base; a Juan David por las secciones de descarga de datos; y al profesor Pablo Cuartas-Restrepo por el curso en el que se desarrolló este trabajo. Se usó Claude (Anthropic) como asistente para escribir y depurar el código y revisar el texto.
+A Camilo A. Ospinal Achicanoy y al semillero COSMIA-UdeA por el blaze de HARPS y el taller de LBL; a Alejandra Arciniegas por el notebook base de fotometría de tránsitos; a Juan David Sanclemente Salazar por las secciones de descarga de datos; y al profesor Pablo Cuartas-Restrepo por el curso en el que se desarrolló este trabajo. Se usó Claude (Anthropic) como asistente para escribir y depurar el código y revisar el texto.
 
 ## Licencia
 
 MIT, © 2026 Mateo C. Gonzalez. Ver el archivo [`LICENSE`](LICENSE).
+
+Repositorio: https://github.com/mateocgonzalez07/LHS1140
