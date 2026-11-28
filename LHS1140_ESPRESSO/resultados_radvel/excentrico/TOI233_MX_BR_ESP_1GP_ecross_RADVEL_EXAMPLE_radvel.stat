@@ -1,0 +1,34 @@
+[fit]
+run = True
+postfile = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_post_obj.pkl
+
+[plot]
+rv_plot = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_rv_multipanel.pdf
+corner_plot = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_corner.pdf
+trend_plot = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_trends.pdf
+derived_plot = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_corner_derived_pars.pdf
+
+[mcmc]
+run = True
+postfile = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_post_obj.pkl
+chainfile = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_chains.csv.bz2
+autocorrfile = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_autocorr.csv
+summaryfile = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_post_summary.csv
+nwalkers = 50
+nensembles = 8
+maxsteps = 4000000
+nsteps = 620000
+nburn = 200000
+minafactor = 41.47387784065928
+maxarchange = 0.022158659429889406
+mintz = 6081.021312061577
+maxgr = 1.0046269697122248
+
+[derive]
+run = True
+quantfile = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_derived_quantiles.csv
+chainfile = TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE/TOI233_MX_BR_ESP_1GP_ecross_RADVEL_EXAMPLE_derived.csv.bz2
+
+[ic_compare]
+ic = [OrderedDict({'Free Params': (['$K_{c}$', '{$\\sigma$}'], 'The free parameters in this model'), '$N_{\\rm free}$': (5, 'number of free parameters'), '$N_{\\rm data}$': (44, 'number of measurements'), 'RMS': (np.float64(3.91), 'RMS of residuals in m s$^{-1}$'), '$\\ln{\\mathcal{L}}$': (np.float64(-inf), 'natural log of the likelihood'), 'BIC': (np.float64(274.29), 'Bayesian information criterion'), 'AICc': (np.float64(266.95), 'Aikaike information (small sample corrected) criterion')}), OrderedDict({'Free Params': (['$e_{c}$', '$K_{c}$', '{$\\sigma$}'], 'The free parameters in this model'), '$N_{\\rm free}$': (7, 'number of free parameters'), '$N_{\\rm data}$': (44, 'number of measurements'), 'RMS': (np.float64(3.88), 'RMS of residuals in m s$^{-1}$'), '$\\ln{\\mathcal{L}}$': (np.float64(-inf), 'natural log of the likelihood'), 'BIC': (np.float64(281.49), 'Bayesian information criterion'), 'AICc': (np.float64(272.11), 'Aikaike information (small sample corrected) criterion')}), OrderedDict({'Free Params': (['$K_{b}$', '{$\\sigma$}'], 'The free parameters in this model'), '$N_{\\rm free}$': (5, 'number of free parameters'), '$N_{\\rm data}$': (44, 'number of measurements'), 'RMS': (np.float64(3.46), 'RMS of residuals in m s$^{-1}$'), '$\\ln{\\mathcal{L}}$': (np.float64(-inf), 'natural log of the likelihood'), 'BIC': (np.float64(269.7), 'Bayesian information criterion'), 'AICc': (np.float64(262.36), 'Aikaike information (small sample corrected) criterion')}), OrderedDict({'Free Params': (['$e_{b}$', '$K_{b}$', '{$\\sigma$}'], 'The free parameters in this model'), '$N_{\\rm free}$': (7, 'number of free parameters'), '$N_{\\rm data}$': (44, 'number of measurements'), 'RMS': (np.float64(3.45), 'RMS of residuals in m s$^{-1}$'), '$\\ln{\\mathcal{L}}$': (np.float64(-inf), 'natural log of the likelihood'), 'BIC': (np.float64(277.17), 'Bayesian information criterion'), 'AICc': (np.float64(267.79), 'Aikaike information (small sample corrected) criterion')}), OrderedDict({'Free Params': (['{$\\sigma$}'], 'The free parameters in this model'), '$N_{\\rm free}$': (2, 'number of free parameters'), '$N_{\\rm data}$': (44, 'number of measurements'), 'RMS': (np.float64(4.27), 'RMS of residuals in m s$^{-1}$'), '$\\ln{\\mathcal{L}}$': (np.float64(-inf), 'natural log of the likelihood'), 'BIC': (np.float64(266.76), 'Bayesian information criterion'), 'AICc': (np.float64(263.48), 'Aikaike information (small sample corrected) criterion')}), OrderedDict({'Free Params': (['$K_{b}$', '$e_{c}$', '$K_{c}$', '{$\\sigma$}'], 'The free parameters in this model'), '$N_{\\rm free}$': (10, 'number of free parameters'), '$N_{\\rm data}$': (44, 'number of measurements'), 'RMS': (np.float64(3.14), 'RMS of residuals in m s$^{-1}$'), '$\\ln{\\mathcal{L}}$': (np.float64(-88.49), 'natural log of the likelihood'), 'BIC': (np.float64(263.52), 'Bayesian information criterion'), 'AICc': (np.float64(252.34), 'Aikaike information (small sample corrected) criterion')}), OrderedDict({'Free Params': (['$e_{b}$', '$K_{b}$', '$K_{c}$', '{$\\sigma$}'], 'The free parameters in this model'), '$N_{\\rm free}$': (10, 'number of free parameters'), '$N_{\\rm data}$': (44, 'number of measurements'), 'RMS': (np.float64(3.18), 'RMS of residuals in m s$^{-1}$'), '$\\ln{\\mathcal{L}}$': (np.float64(-88.99), 'natural log of the likelihood'), 'BIC': (np.float64(264.52), 'Bayesian information criterion'), 'AICc': (np.float64(253.34), 'Aikaike information (small sample corrected) criterion')}), OrderedDict({'Free Params': (['$K_{b}$', '$K_{c}$', '{$\\sigma$}'], 'The free parameters in this model'), '$N_{\\rm free}$': (8, 'number of free parameters'), '$N_{\\rm data}$': (44, 'number of measurements'), 'RMS': (np.float64(3.18), 'RMS of residuals in m s$^{-1}$'), '$\\ln{\\mathcal{L}}$': (np.float64(-89.06), 'natural log of the likelihood'), 'BIC': (np.float64(257.09), 'Bayesian information criterion'), 'AICc': (np.float64(246.93), 'Aikaike information (small sample corrected) criterion')}), OrderedDict({'Free Params': (['$e_{b}$', '$K_{b}$', '$e_{c}$', '$K_{c}$', '{$\\sigma$}'], 'The free parameters in this model'), '$N_{\\rm free}$': (12, 'number of free parameters'), '$N_{\\rm data}$': (44, 'number of measurements'), 'RMS': (np.float64(3.14), 'RMS of residuals in m s$^{-1}$'), '$\\ln{\\mathcal{L}}$': (np.float64(-88.44), 'natural log of the likelihood'), 'BIC': (np.float64(271.0), 'Bayesian information criterion'), 'AICc': (np.float64(259.65), 'Aikaike information (small sample corrected) criterion')})]
+

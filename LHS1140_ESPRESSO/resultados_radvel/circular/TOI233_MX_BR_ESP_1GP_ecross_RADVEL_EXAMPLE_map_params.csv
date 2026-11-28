@@ -1,0 +1,17 @@
+param,value,vary
+per1,24.737246000153995,True
+tc1,-7.7490352153976803,True
+secosw1,0,False
+sesinw1,0,False
+logk1,1.1735371868642253,True
+per2,3.7779360000503477,True
+tc2,1.754496697945489,True
+secosw2,0,False
+sesinw2,0,False
+logk2,0.59207397722804367,True
+dvdt,0,False
+curv,0,False
+gamma_espresso,0.63856774330654509,True
+jit_espresso,3.1595000423600306,True
+logprob,-89.057220363886401,False
+time_base,58754,False
